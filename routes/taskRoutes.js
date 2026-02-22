@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { protect } = require('../middleware/auth');
 
 // Import controller functions
 const {
@@ -10,14 +11,14 @@ const {
   deleteTask
 } = require('../controllers/taskController');
 
-// Define routes
+// Protect all routes with authentication
 router.route('/')
-  .get(getTasks)      // GET /api/tasks
-  .post(createTask);  // POST /api/tasks
+  .get(protect, getTasks)      // Must be logged in
+  .post(protect, createTask);  // Must be logged in
 
 router.route('/:id')
-  .get(getTask)       // GET /api/tasks/:id
-  .put(updateTask)    // PUT /api/tasks/:id
-  .delete(deleteTask); // DELETE /api/tasks/:id
+  .get(protect, getTask)       // Must be logged in
+  .put(protect, updateTask)    // Must be logged in
+  .delete(protect, deleteTask); // Must be logged in
 
 module.exports = router;

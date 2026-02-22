@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
-// Define the structure of a Task
 const taskSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     title: {
       type: String,
       required: [true, 'Please add a task title'],
@@ -28,9 +32,8 @@ const taskSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true // Automatically adds createdAt and updatedAt
+    timestamps: true
   }
 );
 
-// Create and export the model
 module.exports = mongoose.model('Task', taskSchema);
