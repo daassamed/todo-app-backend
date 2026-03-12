@@ -9,6 +9,9 @@ const connectDB = require('./config/db');
 dotenv.config();
 connectDB();
 
+// Passport strategies need env vars loaded
+const passport = require('./config/passport');
+
 const app = express();
 
 // ============================================
@@ -46,6 +49,7 @@ app.use(cors(corsOptions));
 // ============================================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(passport.initialize());
 
 // Request logging
 app.use((req, res, next) => {
@@ -78,6 +82,7 @@ app.get('/api', (req, res) => {
 
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
+// app.use('/api/auth', require('./routes/oauthRoutes')); // ADD THIS
 
 // ============================================
 // ERROR HANDLING
